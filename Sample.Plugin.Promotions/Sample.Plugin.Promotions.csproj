@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Sample Plugin Promotions</Description>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>Sitecore</Authors>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyName>Sample Plugin Promotions</AssemblyName>
+    <PackageId>Sample Plugin Promotions</PackageId>
+    <PackageTags>Sitecore;Commerce;Plugin;Example</PackageTags>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Backorderable" Version="2.2.26" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Catalog" Version="2.2.46" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Coupons" Version="2.2.22" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Customers" Version="2.2.10" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Entitlements" Version="2.2.7" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.GiftCards" Version="2.2.7" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Inventory" Version="2.2.26" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Journaling" Version="2.2.29" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Management" Version="2.2.9" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Orders.DelayedAvailability" Version="2.2.26" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Preorderable" Version="2.2.26" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Promotions" Version="2.2.3" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Returns" Version="2.2.4" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Shops" Version="2.2.29" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.SQL" Version="2.2.6" />
+    <PackageReference Include="Sitecore.Commerce.Plugin.Tax" Version="2.2.22" />
+    <PackageReference Include="Sitecore.Framework.Configuration" Version="5.0.0" />
+    <PackageReference Include="Sitecore.Framework.Pipelines" Version="4.0.1" />
+  </ItemGroup>
+
+  <!-- Excluded 
+  <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Compile Include="..\Shared\VersionInfo.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**" />
+  </ItemGroup>
+  -->
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System.Transactions" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+</Project>
