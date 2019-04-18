@@ -10,10 +10,10 @@ namespace Commerce.Models
     [Serializable]
     public class CartModel
     {
-        //Bing this property under shoppingcart view to display Total Discount
+        //Bind this property under shoppingcart view to display Total Discount
         public decimal TotalDiscount { get; set; }
 
-        //Bing this property under shoppingcart view to display Coupon codes applied
+        //Bind this property under shoppingcart view to display Coupon codes applied
         public IEnumerable<string> PromoCodes { get; set; }
 
         public void Initialize(CommerceCart cart, CartManager manager)
