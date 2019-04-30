@@ -15,7 +15,7 @@ namespace Sample.Plugin.Promotions.Actions
     {
         public IRuleValue<string> Tag { get; set; }
         public IRuleValue<Decimal> AmountOff { get; set; }
-        public IRuleValue<bool> MonthlyPrice { get; set; }
+        public IRuleValue<bool> BasePrice { get; set; }
         public IRuleValue<bool> ActivationPrice { get; set; }
         public IRuleValue<bool> DeliveryPrice { get; set; }
 
@@ -62,7 +62,7 @@ namespace Sample.Plugin.Promotions.Actions
                 {
                     var customPriceInfo = line.GetComponent<CustomPriceInfoComponent>();
                     Decimal discount = 0;
-                    if (this.MonthlyPrice.Yield(context) && customPriceInfo.MonthlyPrice > 0)
+                    if (this.BasePrice.Yield(context) && customPriceInfo.BasePrice > 0)
                     {
                         discount += this.AmountOff.Yield(context);
                     }
