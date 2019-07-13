@@ -4,6 +4,7 @@ using Sitecore.Commerce.Engine.Connect.Services.Carts;
 using Sitecore.Commerce.Entities.Carts;
 using Sitecore.Commerce.Services.Carts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CommerceServices.Repositories
@@ -11,6 +12,9 @@ namespace CommerceServices.Repositories
     public class CartManager
     {
         private const string DefaultCartName = "Default";
+        private const string CartAdjustmentTypePropertyName = "__adjustmentType";
+        private const string CustomPercentOffAction = "CustomPercentOffAction";
+        private const string CustomAmountOffAction = "CustomAmountOffAction";
 
         public CartManager(string shopName)
         {
@@ -54,11 +58,30 @@ namespace CommerceServices.Repositories
                 var addPromoCodeResult = CartServiceProvider.AddPromoCode(new AddPromoCodeRequest(cart, promotionCode));
                 if (addPromoCodeResult.Success && addPromoCodeResult.Cart != null)
                 {
-                    //Double check if discount is applied (due to known issue with Promotion plugin)
+                    
                     cartResult = LoadCart(DefaultCartName, userId);
-                    var discount = (cartResult.Cart.Lines.Sum<CartLine>((Func<CartLine, Decimal>)(lineitem => ((CommerceTotal)lineitem.Total).LineItemDiscountAmount)) + ((CommerceTotal)cartResult.Cart.Total).OrderLevelDiscountAmount);
-                    if (discount > 0)
-                        success = true;
+
+                    //Double check if discount is applied (due to known issue with Promotion plugin)
+                    
+                    //var discount = (cartResult.Cart.Lines.Sum<CartLine>((Func<CartLine, Decimal>)(lineitem => ((CommerceTotal)lineitem.Total).LineItemDiscountAmount)) + ((CommerceTotal)cartResult.Cart.Total).OrderLevelDiscountAmount);
+                    //if (discount > 0)
+                    //    success = true;
+
+
+                    //Note: Above code has been commented and replaced with below code to workaround the Promotion Plugin Issue#2 described in Known Issues with Promotion plugin blog post
+                    if (cartResult.Cart.Lines.Any(x => x.ContainsKey(CartAdjustmentTypePropertyName)))
+                    {
+                        var cartLineWithAdjustment = cartResult.Cart.Lines.FirstOrDefault(x => x.ContainsKey(CartAdjustmentTypePropertyName));
+                        var adjustmentType = cartLineWithAdjustment.GetPropertyValue(CartAdjustmentTypePropertyName) as string;
+                        List<string> distinctAdjustmentTypes = new List<string>() { adjustmentType };
+                        if (adjustmentType.Contains("|"))
+                            distinctAdjustmentTypes = adjustmentType.Split('|').Distinct().ToList();
+                        var totalDiscount = (cartResult.Cart.Lines.Sum<CartLine>((Func<CartLine, Decimal>)(lineitem => ((CommerceTotal)lineitem.Total).LineItemDiscountAmount)) + ((CommerceTotal)cartResult.Cart.Total).OrderLevelDiscountAmount);
+                        if (totalDiscount > 0)
+                            success = true;
+                        else if (totalDiscount == 0 && (distinctAdjustmentTypes.Contains(CustomPercentOffAction) || distinctAdjustmentTypes.Contains(CustomAmountOffAction)))
+                            success = true;
+                    }
                 }
 
                 if (!success && addPromoCodeResult.Success)

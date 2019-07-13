@@ -212,6 +212,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pipelines\Carts\TranslateCartLineToEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CartManager.cs" />
   </ItemGroup>
