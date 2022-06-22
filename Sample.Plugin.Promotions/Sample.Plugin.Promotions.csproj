@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Sitecore.Commerce.Plugin.Backorderable" Version="2.2.26" />
     <PackageReference Include="Sitecore.Commerce.Plugin.Catalog" Version="2.2.46" />
     <PackageReference Include="Sitecore.Commerce.Plugin.Coupons" Version="2.2.22" />
